@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+        - id: merchant-service
+          uri: lb://MERCHANT-SERVICE
+          predicates:
+            - Path=/otar/merchant/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: merchant-service
+                fallbackuri: forward:/merchantFallBack
+        - id: rule-service
+          uri: lb://RULE-SERVICE
+          predicates:
+            - Path=/otar/rule/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: rule-service
+                fallbackuri: forward:/ruleFallback
+        - id: airtime-service
+          uri: lb://AIRTIME-SERVICE
+          predicates:
+            - Path=/otar/airtime/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: airtime-service
+                fallbackuri: forward:/airtimeFallback
+        - id: airtime-adaptor-service
+          uri: lb://AIRTIME-ADAPTOR-SERVICE
+          predicates:
+            - Path=/otar/airtimeadaptor/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: airtime-adaptor-service
+                fallbackuri: forward:/airtimeAdaptorFallback
+server:
+  port: 8989
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
