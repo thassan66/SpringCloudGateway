@@ -14,20 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 //@RequestMapping("/fallback")
 public class FallBackController {
-    @GetMapping("/airtimeFallBack")
-    @HystrixCommand(fallbackMethod = "airtimeFallBack")
-    public String airtimeServiceFallback() {
-        return "Airtime Service is not responding! Please try after some time.";
+    @GetMapping("/adaptorFallBack")
+    @HystrixCommand(fallbackMethod = "adaptorFallBack")
+    public String adaptorServiceFallback() {
+        return "Adaptor Service is not responding! Please try after some time.";
     }
 
     @GetMapping("/ruleFallBack")
     public String ruleServiceFallback() {
-        return "Rule Server overloaded! Please try after some time.";
+        return "Rule Service overloaded! Please try after some time.";
     }
 
-    @GetMapping("/merchantFallBack")
-    public String merchantServiceFallback() {
-        return "Merchant Server overloaded! Please try after some time.";
+    @GetMapping("/rmsFallBack")
+    public String rmsServiceFallback() {
+        return "RMS Service overloaded! Please try after some time.";
     }
 
 }
