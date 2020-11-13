@@ -4,44 +4,35 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: merchant-service
-          uri: lb://MERCHANT-SERVICE
-          predicates:
-            - Path=/otar/merchant/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: merchant-service
-                fallbackuri: forward:/merchantFallBack
         - id: rule-service
           uri: lb://RULE-SERVICE
           predicates:
-            - Path=/otar/rule/**
+            - Path=/rule/**
           filters:
             - name: CircuitBreaker
               args:
                 name: rule-service
                 fallbackuri: forward:/ruleFallback
-        - id: airtime-service
-          uri: lb://AIRTIME-SERVICE
+        - id: rms-service
+          uri: lb://RMS-SERVICE
           predicates:
-            - Path=/otar/airtime/**
+            - Path=/rms/**
           filters:
             - name: CircuitBreaker
               args:
-                name: airtime-service
-                fallbackuri: forward:/airtimeFallback
-        - id: airtime-adaptor-service
-          uri: lb://AIRTIME-ADAPTOR-SERVICE
+                name: rms-service
+                fallbackuri: forward:/rmsFallBack
+        - id: adaptor-service
+          uri: lb://ADAPTOR-SERVICE
           predicates:
-            - Path=/otar/airtimeadaptor/**
+            - Path=/adaptor/**
           filters:
             - name: CircuitBreaker
               args:
-                name: airtime-adaptor-service
-                fallbackuri: forward:/airtimeAdaptorFallback
+                name: adaptor-service
+                fallbackuri: forward:/adaptorFallback
 server:
-  port: 8989
+  port: 8050
 
 management:
   endpoints:
